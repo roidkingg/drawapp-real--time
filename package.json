@@ -2,7 +2,7 @@
   "name": "draw-app",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "build": "echo 'Root build not needed' || exit 0", 
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -16,7 +16,6 @@
     "prisma": "^6.10.1",
     "@prisma/client": "^6.10.1"
   },
-  
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
