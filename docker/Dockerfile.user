@@ -1,32 +1,26 @@
 FROM node:20.12.0-alpine3.19
 
-# 1. Set working directory
+# 1️⃣ Set working directory
 WORKDIR /usr/src/app
 
-# 2. Install pnpm
+# 2️⃣ Install pnpm
 RUN npm install -g pnpm
 
-# 3. Copy package files first
+# 3️⃣ Copy EVERYTHING for installation
+COPY pnpm-workspace.yaml ./
 COPY pnpm-lock.yaml ./
 COPY turbo.json ./
 COPY tsconfig.json ./
 COPY package.json ./
-COPY apps/excelidraw-frontend/package.json ./apps/excelidraw-frontend/
-COPY packages/*/package.json ./packages/*/
-
-# 4. Install all dependencies (entire workspace!)
-RUN pnpm install --frozen-lockfile
-
-# 5. Copy source files
 COPY apps ./apps
 COPY packages ./packages
 
-# 6. Build the app
+# 4️⃣ Install all workspace dependencies
+RUN pnpm install --frozen-lockfile
+
+# 5️⃣ Build
 RUN pnpm run db:generate && \
-    pnpm run build
+    pnpm --filter excelidraw-frontend run build
 
-# 7. Expose port
-EXPOSE 3000
-
-# 8. Final command
+# 6️⃣ Final command
 CMD ["pnpm", "run", "start-user-app"]
