@@ -1,12 +1,15 @@
+export const dynamic = "force-dynamic";
+
 import { RoomCanvas } from "@/components/RoomCanvas";
 
-export default async function CanvasPage({ params }: {
-    params: {
-        roomId: string
-    }
-}) {
-    const roomId = (await params).roomId;
+type CanvasPageProps = {
+  params: {
+    roomId: string;
+  };
+};
 
-    return <RoomCanvas roomId={roomId} />
-   
+export default function CanvasPage({ params }: CanvasPageProps) {
+  const { roomId } = params;
+
+  return <RoomCanvas roomId={roomId} />;
 }

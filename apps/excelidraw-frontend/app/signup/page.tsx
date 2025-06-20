@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import { HTTP_BACKEND } from "@/config"
 
 export default function(){
     const router = useRouter()
@@ -93,7 +94,7 @@ export default function(){
                                 setIsLoading(true)
                                 console.log("Sending:", { name, email, password });
                                 try {
-                                    const res = await axios.post("http://localhost:3001/signup", {
+                                    const res = await axios.post(`${HTTP_BACKEND}/signup`, {
                                         name,
                                         email,
                                         password
