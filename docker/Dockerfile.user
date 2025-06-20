@@ -1,17 +1,22 @@
 FROM node:20.12.0-alpine3.19
 
+# 1️⃣ Set working directory
 WORKDIR /usr/src/app
 
+# 2️⃣ Install pnpm globally
 RUN npm install -g pnpm
 
+# 3️⃣ Copy files
 COPY package.json turbo.json tsconfig.json ./
 COPY apps ./apps
 COPY packages ./packages
 
+# 4️⃣ Install dependencies
 RUN pnpm install
-RUN npm run db:generate
-# Instead of: RUN npm run build
-RUN npx turbo build
 
+# 5️⃣ Build project
+RUN pnpm run db:generate && \
+    npx turbo build
 
-CMD ["npm", "run", "start-user-app"]
+# 6️⃣ Start app
+CMD ["pnpm", "run", "start-user-app"]
