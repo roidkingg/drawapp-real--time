@@ -1,14 +1,13 @@
 {
   "name": "@repo/db",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc -b",
     "start": "node ./dist/index.js",
     "dev": "npm run build && npm run start"
   },
   "dependencies": {
-    
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.7",
     "cors": "^2.8.5",
