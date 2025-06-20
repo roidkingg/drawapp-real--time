@@ -1,0 +1,25 @@
+name: Build on PR
+
+on:
+  pull_request:
+    branches:
+      - main  # Changed from 'master' to 'main' (GitHub's default branch name)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # Updated to v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4  # Updated to v5
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Generate Prisma client
+        run: npm run db:generate
+
+      - name: Run Build
+        run: npm run build
