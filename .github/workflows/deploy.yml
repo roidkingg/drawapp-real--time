@@ -24,10 +24,10 @@ jobs:
         context: .
         file: ./docker/Dockerfile.user
         push: true
-        tags: aryanrarh/paytm-project:latest
+        tags: aryanrarh/realtime-drawapp:latest
 
     - name: Verify Pushed Image
-      run: docker pull aryanrarh/paytm-project:latest
+      run: docker pull aryanrarh/realtime-drawapp:latest
 
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v1.0.3  # Pinned to a stable version
@@ -36,7 +36,7 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          sudo docker pull aryanrarh/paytm-project:latest
+          sudo docker pull aryanrarh/realtime-drawapp:latest
           sudo docker stop web-app || true
           sudo docker rm web-app || true
-          sudo docker run -d --name web-app -p 3005:3000 aryanrarh/paytm-project:latest
+          sudo docker run -d --name web-app -p 3005:3000 aryanrarh/realtime-drawapp:latest
