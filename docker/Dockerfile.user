@@ -10,6 +10,7 @@ COPY packages ./packages
 
 RUN pnpm install
 RUN npm run db:generate
-RUN npx turbo build
+# Instead of: RUN npm run build
+RUN npx turbo build --filter=excelidraw-frontend
 
 CMD ["npm", "run", "start-user-app"]
