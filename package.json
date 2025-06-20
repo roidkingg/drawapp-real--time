@@ -2,7 +2,7 @@
   "name": "draw-app",
   "private": true,
   "scripts": {
-    "build": "echo 'Root build not needed' || exit 0", 
+    "build": "turbo build", 
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",

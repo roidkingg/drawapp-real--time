@@ -6,17 +6,21 @@ WORKDIR /usr/src/app
 # 2️⃣ Install pnpm globally
 RUN npm install -g pnpm
 
-# 3️⃣ Copy files
-COPY package.json turbo.json tsconfig.json ./
+# 3️⃣ Copy package files first for better caching
+COPY package.json pnpm-lock.yaml* turbo.json tsconfig.json ./
+COPY apps/excelidraw-frontend/package.json ./apps/excelidraw-frontend/
+COPY packages/*/package.json ./packages/*/
+
+# 4️⃣ Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# 5️⃣ Copy source code
 COPY apps ./apps
 COPY packages ./packages
 
-# 4️⃣ Install dependencies
-RUN pnpm install
-
-# 5️⃣ Build project
+# 6️⃣ Generate Prisma client and build
 RUN pnpm run db:generate && \
-    npx turbo build
+    pnpm run build
 
-# 6️⃣ Start app
+# 7️⃣ Start app
 CMD ["pnpm", "run", "start-user-app"]
