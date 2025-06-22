@@ -102,6 +102,7 @@ export default function () {
                                     alert("Login failed. Check console for details.");
                                 } finally {
                                     setIsLoading(false);
+                            
                                 }
                             }}
                             disabled={isLoading || !email || !password}
