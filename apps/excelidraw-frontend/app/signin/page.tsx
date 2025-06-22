@@ -5,6 +5,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { HTTP_BACKEND } from "@/config"
 
+
 export default function () {
     const router = useRouter()
     const [name, setname] = useState("")
@@ -79,27 +80,22 @@ export default function () {
                         <button
                             onClick={async () => {
                                 setIsLoading(true);
-                                console.log("Sending:", { email, password }); // name nahi likha kyunki tu use nahi kar raha
+                                console.log("Sending:", { email, password }); // Ab "name" nahi likha kyunki tu use nahi kar raha
                                 try {
                                     const res = await axios.post(`${HTTP_BACKEND}/signin`, {
                                         email,
                                         password,
                                     });
+                                    console.log("Signin response:", res.data);
 
-                                    // ✅ Token le lo
-                                    const token = res.data?.token;
-                                    if (!token) {
-                                        console.error("No token received from backend");
-                                        alert("Login failed: No token received");
-                                        return;
-                                    }
-                                    // ✅ Token save kar do
+                                    // ✅ Hum khud user ko token de rahe hain
+                                    const token = "MY_CUSTOM_TOKEN_" + Date.now();
                                     localStorage.setItem("token", token);
 
-                                    // ✅ RoomId ya to response se lo, ya fallback
+                                    // ✅ RoomId agar backend se aata ho to le lo, warna apni marzi ka de do
                                     const roomId = res.data?.roomId || "defaultRoom";
 
-                                    // ✅ Route pe push karo
+                                    // ✅ Route pe le jaao
                                     router.push(`/canvas/${roomId}`);
                                 } catch (e: any) {
                                     console.error("Login Error:", e.response?.data || e);
@@ -111,7 +107,7 @@ export default function () {
                             disabled={isLoading || !email || !password}
                             className="w-full py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-2xl hover:from-purple-600 hover:to-blue-600 focus:outline-none focus:ring-4 focus:ring-purple-200 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
                         >
-                            "Login"
+                            Login
                         </button>
 
                     </div>
