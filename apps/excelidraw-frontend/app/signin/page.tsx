@@ -5,14 +5,14 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { HTTP_BACKEND } from "@/config"
 
-export default function(){
+export default function () {
     const router = useRouter()
-    const[name,setname] = useState("")
-    const[email,setemail] = useState("")
-    const[password,setpassword] = useState("")
-    const[isLoading, setIsLoading] = useState(false)
+    const [name, setname] = useState("")
+    const [email, setemail] = useState("")
+    const [password, setpassword] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
-    return(
+    return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -40,14 +40,14 @@ export default function(){
 
                     {/* Form */}
                     <div className="space-y-6">
-                        
-    
+
+
 
                         {/* Email input */}
                         <div className="relative group">
-                            <input 
-                                onChange={(e) => {setemail(e.target.value)}} 
-                                type="email" 
+                            <input
+                                onChange={(e) => { setemail(e.target.value) }}
+                                type="email"
                                 placeholder="Email Address"
                                 value={email}
                                 className="w-full px-4 py-4 pl-12 bg-gray-50/50 border-2 border-gray-200 rounded-2xl focus:border-purple-500 focus:bg-white focus:outline-none transition-all duration-300 placeholder-gray-400 text-gray-700"
@@ -61,9 +61,9 @@ export default function(){
 
                         {/* Password input */}
                         <div className="relative group">
-                            <input 
-                                onChange={(e) => {setpassword(e.target.value)}} 
-                                type="password" 
+                            <input
+                                onChange={(e) => { setpassword(e.target.value) }}
+                                type="password"
                                 placeholder="Password"
                                 value={password}
                                 className="w-full px-4 py-4 pl-12 bg-gray-50/50 border-2 border-gray-200 rounded-2xl focus:border-purple-500 focus:bg-white focus:outline-none transition-all duration-300 placeholder-gray-400 text-gray-700"
@@ -76,38 +76,48 @@ export default function(){
                         </div>
 
                         {/* Submit button */}
-                        <button 
+                        <button
                             onClick={async () => {
-                                setIsLoading(true)
-                                console.log("Sending:", { name, email, password });
+                                setIsLoading(true);
+                                console.log("Sending:", { email, password }); // name nahi likha kyunki tu use nahi kar raha
                                 try {
                                     const res = await axios.post(`${HTTP_BACKEND}/signin`, {
-                                        
                                         email,
-                                        password
+                                        password,
                                     });
-                                    
-                                  
-                                    router.push(`canvas/{roomId}`)
-                                } catch (e:any) {
-                                    console.error("Signup Error:", e.response?.data || e);
+
+                                    // ✅ Token le lo
+                                    const token = res.data?.token;
+                                    if (!token) {
+                                        console.error("No token received from backend");
+                                        alert("Login failed: No token received");
+                                        return;
+                                    }
+                                    // ✅ Token save kar do
+                                    localStorage.setItem("token", token);
+
+                                    // ✅ RoomId ya to response se lo, ya fallback
+                                    const roomId = res.data?.roomId || "defaultRoom";
+
+                                    // ✅ Route pe push karo
+                                    router.push(`/canvas/${roomId}`);
+                                } catch (e: any) {
+                                    console.error("Login Error:", e.response?.data || e);
+                                    alert("Login failed. Check console for details.");
                                 } finally {
-                                    setIsLoading(false)
+                                    setIsLoading(false);
                                 }
                             }}
-                            disabled={isLoading  || !email || !password}
+                            disabled={isLoading || !email || !password}
                             className="w-full py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-2xl hover:from-purple-600 hover:to-blue-600 focus:outline-none focus:ring-4 focus:ring-purple-200 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
                         >
-                            
-                               
-                             
-                                "Login"
-                            
+                            "Login"
                         </button>
+
                     </div>
 
                     {/* Footer */}
-                    
+
                 </div>
 
                 {/* Decorative drawing elements */}
