@@ -237,8 +237,8 @@ export const Landing = () => {
             <div className={styles.footerSection}>
               <h4>Company</h4>
               <a href="#">About</a>
-              <a href="#">Careers</a>
-              <a href="#">Press</a>
+             
+             
               <a href="#">Contact</a>
             </div>
             <div className={styles.footerSection}>
