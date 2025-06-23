@@ -8,7 +8,11 @@ import cors from "cors";
 
 const app = express();
 app.use(express.json());
-app.use(cors())
+
+app.use(cors({
+  origin: ['https://realtime-drawapp.aryanrarh.dev', 'http://localhost:3000'],
+  credentials: true
+}));
 app.post("/signup", async (req, res) => {
 
     const parsedData = CreateUserSchema.safeParse(req.body);
