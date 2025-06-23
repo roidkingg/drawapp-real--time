@@ -185,7 +185,7 @@ export const Landing = () => {
               <div className={styles.demoVisual}>
                 <div className={styles.collaboratorCursors}>
                   <div className={`${styles.cursor} ${styles.cursor1}`}>
-                    <span>Alice</span>
+                    <span>Shirley</span>
                   </div>
                   <div className={`${styles.cursor} ${styles.cursor2}`}>
                     <span>Bob</span>
