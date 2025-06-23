@@ -6,7 +6,6 @@ import { Game } from "@/draw/Game";
 
 export type Tool = "circle" | "rect" | "pencil" | "text";
 
-
 export function Canvas({
     roomId,
     socket
