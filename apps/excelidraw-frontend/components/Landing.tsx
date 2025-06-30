@@ -94,7 +94,7 @@ export const Landing = () => {
                   
                 </p>
                 <div className={styles.heroButtons}>
-                  <a href="#" className={styles.btnPrimary}>Start Drawing</a>
+                  <a href="signup" className={styles.btnPrimary}>Start Drawing</a>
                   <a href="#demo" className={styles.btnSecondary}>Watch Demo</a>
                 </div>
               </div>

@@ -15,18 +15,23 @@ const users: User[] = [];
 
 function checkUser(token: string): string | null {
   try {
+    console.log("Attempting to verify token with secret:", JWT_SECRET);
     const decoded = jwt.verify(token, JWT_SECRET);
 
     if (typeof decoded == "string") {
+      console.log("Token decoded as string, expected object");
       return null;
     }
 
     if (!decoded || !decoded.userId) {
+      console.log("Token missing userId:", decoded);
       return null;
     }
 
+    console.log("Token verified successfully for user:", decoded.userId);
     return decoded.userId;
   } catch(e) {
+    console.log("JWT verification failed:", e);
     return null;
   }
   return null;
@@ -35,17 +40,23 @@ function checkUser(token: string): string | null {
 wss.on('connection', function connection(ws, request) {
   const url = request.url;
   if (!url) {
+    console.log("No URL in request");
     return;
   }
   const queryParams = new URLSearchParams(url.split('?')[1]);
   const token = queryParams.get('token') || "";
+  console.log("Received token:", token);
+  
   const userId = checkUser(token);
+  console.log("User ID from token:", userId);
 
   if (userId == null) {
+    console.log("Invalid token, closing connection");
     ws.close()
     return null;
   }
 
+  console.log("User authenticated successfully:", userId);
   users.push({
     userId,
     rooms: [],
