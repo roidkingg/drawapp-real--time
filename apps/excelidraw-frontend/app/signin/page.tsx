@@ -90,7 +90,6 @@ export default function () {
                                     // Store the real JWT from backend
                                     const token = res.data.token;
                                     localStorage.setItem("token", token);
-
                                     // Redirect to a default room (or implement logic to fetch/create a room)
                                     const roomId = "defaultRoom";
                                     router.push(`/canvas/${roomId}`);
