@@ -80,7 +80,7 @@ export default function () {
                         <button
                             onClick={async () => {
                                 setIsLoading(true);
-                                console.log("Sending:", { email, password }); // Ab "name" nahi likha kyunki tu use nahi kar raha
+                                console.log("Sending:", { email, password });
                                 try {
                                     const res = await axios.post(`${HTTP_BACKEND}/signin`, {
                                         email,
@@ -88,21 +88,18 @@ export default function () {
                                     });
                                     console.log("Signin response:", res.data);
 
-                                    // ✅ Hum khud user ko token de rahe hain
-                                    const token = "MY_CUSTOM_TOKEN_" + Date.now();
+                                    // Store the real JWT from backend
+                                    const token = res.data.token;
                                     localStorage.setItem("token", token);
 
-                                    // ✅ RoomId agar backend se aata ho to le lo, warna apni marzi ka de do
-                                    const roomId = res.data?.roomId || "defaultRoom";
-
-                                    // ✅ Route pe le jaao
+                                    // Redirect to a default room (or implement logic to fetch/create a room)
+                                    const roomId = "defaultRoom";
                                     router.push(`/canvas/${roomId}`);
                                 } catch (e: any) {
                                     console.error("Login Error:", e.response?.data || e);
                                     alert("Login failed. Check console for details.");
                                 } finally {
                                     setIsLoading(false);
-                            
                                 }
                             }}
                             disabled={isLoading || !email || !password}
