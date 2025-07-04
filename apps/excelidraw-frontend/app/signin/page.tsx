@@ -91,13 +91,8 @@ export default function () {
                                     const token = res.data.token;
                                     localStorage.setItem("token", token);
 
-                                    // Fetch or create a room for the user
-                                    const roomRes = await axios.post(
-                                        `${HTTP_BACKEND}/room`,
-                                        { name: email },
-                                        { headers: { Authorization: `Bearer ${token}` } }
-                                    );
-                                    const roomId = roomRes.data.roomId;
+                                    // Redirect to a default room (or implement logic to fetch/create a room)
+                                    const roomId = "defaultRoom";
                                     router.push(`/canvas/${roomId}`);
                                 } catch (e: any) {
                                     console.error("Login Error:", e.response?.data || e);
