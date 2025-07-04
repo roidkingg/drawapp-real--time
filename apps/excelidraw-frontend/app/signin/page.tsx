@@ -5,7 +5,6 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { HTTP_BACKEND } from "@/config"
 
-
 export default function () {
     const router = useRouter()
     const [name, setname] = useState("")
